@@ -17,15 +17,14 @@ const argv = require('yargs').options({
     .catch(console.log);*/
 
 const getInfo = async direccion => {
-    const { lat, lon } = await lugar.getLugarLatLon(argv.direccion);
-    const temperatura = await clima.getClima(lat, lon);
+    try {
+        const { lat, lon } = await lugar.getLugarLatLon(argv.direccion);
+        const temperatura = await clima.getClima(lat, lon);
 
-    if (!temperatura) {
-        throw new Error(`No se pudo determinar el clima de ${direccion}`);
-        return;
+        return `La temperatura de ${direccion} es de ${temperatura}`;
+    } catch (error) {
+        return `No se pudo determinar el clima de ${direccion}`;
     }
-
-    return `La temperatura de ${direccion} es de ${temperatura}`;
 };
 
 
